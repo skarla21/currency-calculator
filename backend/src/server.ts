@@ -96,7 +96,18 @@ passport.use(
 );
 
 passport.serializeUser(User.serializeUser()); //store user info in cookie, after successful login
-passport.deserializeUser(User.deserializeUser()); //fetches the req.user info from db if an active session exists
+// passport.deserializeUser(User.deserializeUser()); //fetches the req.user info from db if an active session exists
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id); // Fetch user from database
+    if (!user) {
+      return done(null, false); // User not found
+    }
+    done(null, user); // Success
+  } catch (err) {
+    done(err); // Error
+  }
+});
 /* */
 
 app.use((req, res, next) => {
