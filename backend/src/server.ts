@@ -95,14 +95,18 @@ passport.use(
   )
 );
 
-passport.serializeUser(User.serializeUser()); //store user info in cookie, after successful login
+// passport.serializeUser(User.serializeUser()); //store user info in cookie, after successful login
+passport.serializeUser(User.serializeUser());
+
 // passport.deserializeUser(User.deserializeUser()); //fetches the req.user info from db if an active session exists
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id); // Fetch user from database
     if (!user) {
+      console.log("no user from deserialization!!!!!!!!!!");
       return done(null, false); // User not found
     }
+    console.log("user from deserialization!!!!!!!!!!!!!");
     done(null, user); // Success
   } catch (err) {
     done(err); // Error
@@ -111,7 +115,8 @@ passport.deserializeUser(async (id, done) => {
 /* */
 
 app.use((req, res, next) => {
-  console.log("Cookies:", req.headers.cookie); // Debugging line
+  console.log("Session ID before request:", req.sessionID); // Log session ID before processing
+  console.log("Cookies on request:", req.headers.cookie); // Log cookies sent in request
   next();
 });
 
