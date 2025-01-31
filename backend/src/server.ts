@@ -64,8 +64,6 @@ store.on("error", function (e) {
   console.log("SESSION STORE ERROR", e);
 });
 
-const sameSite: "none" | "lax" =
-  process.env.NODE_ENV === "production" ? "none" : "lax";
 const sessionConfig = {
   store,
   name: "session",
@@ -74,8 +72,8 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Set to true in production (HTTPS)
-    sameSite, // Set to "none" for cross-origin in production
+    secure: process.env.NODE_ENV === "production", // set to true in prod (HTTPS)
+    sameSite: "none" as "none", // set to none in prod
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
   },
 };
