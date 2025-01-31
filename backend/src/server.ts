@@ -74,8 +74,8 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Set to true in production (HTTPS)
-    sameSite, // Set to "none" for cross-origin in production
+    // secure: process.env.NODE_ENV === "production", // Set to true in production (HTTPS)
+    // sameSite, // Set to "none" for cross-origin in production
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
   },
 };
