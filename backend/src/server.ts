@@ -67,13 +67,14 @@ store.on("error", function (e) {
 
 const sessionConfig: SessionOptions = {
   store,
+  name: "session", // Cookie name
   secret: process.env.SECRET!,
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // set to true in prod (HTTPS)
-    sameSite: "none", // set to none in prod
+    secure: process.env.NODE_ENV === "production", // true in production
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // "none" in production
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
   },
 };
@@ -96,21 +97,16 @@ passport.use(
 );
 
 // passport.serializeUser(User.serializeUser()); //store user info in cookie, after successful login
-passport.serializeUser(User.serializeUser());
+passport.serializeUser((user: any, done) => {
+  done(null, user._id); // Serialize user by MongoDB _id
+});
 
-// passport.deserializeUser(User.deserializeUser()); //fetches the req.user info from db if an active session exists
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findById(id); // Fetch user from database
-    console.log("some random id that i try to find user from: ", id);
-    if (!user) {
-      console.log("no user from deserialization!!!!!!!!!!");
-      return done(null, false); // User not found
-    }
-    console.log("user from deserialization!!!!!!!!!!!!!");
-    done(null, user); // Success
+    const user = await User.findById(id); // Fetch user from DB
+    done(null, user);
   } catch (err) {
-    done(err); // Error
+    done(err);
   }
 });
 /* */
