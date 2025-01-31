@@ -75,6 +75,7 @@ const login = (
         return next(err);
       }
       console.log("Session data before login:", req.session); // Debugging line
+      console.log("Session ID:", req.session.id);
       console.log("User data before login:", req.user); // Debugging line
       if (!user) {
         return res
@@ -86,6 +87,7 @@ const login = (
           return next(loginErr);
         }
         console.log("Session data after login:", req.session); // Debugging line
+        console.log("Session ID:", req.session.id);
         console.log("User data after login:", req.user); // Debugging line
 
         // Manually set the session cookie in the response
