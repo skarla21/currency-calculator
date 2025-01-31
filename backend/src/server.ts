@@ -37,7 +37,12 @@ const allowedOrigins = [
   process.env.local_preview_FRONTEND_URL,
 ].filter(Boolean); //removes any undefined values
 
-app.use(cors());
+app.use(
+  cors({
+    preflightContinue: true,
+    credentials: true,
+  })
+);
 
 app.use(express.json()); //parse JSON request bodies
 app.use(express.urlencoded({ extended: true }));
