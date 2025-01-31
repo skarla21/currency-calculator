@@ -11,6 +11,7 @@ const authService = {
         },
         body: JSON.stringify(credentials),
         credentials: "include", // ensures cookies are sent with request
+        mode: "cors",
       };
       const response = await fetch(`${API_URL}/login`, options);
 
@@ -38,6 +39,7 @@ const authService = {
         },
         body: JSON.stringify(credentials),
         credentials: "include",
+        mode: "cors",
       };
       const response = await fetch(`${API_URL}/register`, options);
 
@@ -57,6 +59,7 @@ const authService = {
       const response = await fetch(`${API_URL}/logout`, {
         method: "POST",
         credentials: "include",
+        mode: "cors",
       });
 
       if (!response.ok) {
@@ -74,6 +77,7 @@ const authService = {
       const response = await fetch(`${API_URL}/current-user`, {
         method: "GET",
         credentials: "include",
+        mode: "cors",
       });
 
       if (!response.ok) {

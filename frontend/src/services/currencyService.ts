@@ -9,6 +9,7 @@ const currencyService = {
       const response = await fetch(`${API_URL}/currencies/`, {
         method: "GET",
         credentials: "include",
+        mode: "cors",
       });
       if (!response.ok) {
         const errorData = await response.json();
@@ -26,6 +27,7 @@ const currencyService = {
       const response = await fetch(`${API_URL}/currencies/${_id}`, {
         method: "GET",
         credentials: "include",
+        mode: "cors",
       });
       if (!response.ok) {
         const errorData = await response.json();
@@ -49,6 +51,7 @@ const currencyService = {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(currencyData),
         credentials: "include",
+        mode: "cors",
       };
       const response = await fetch(`${API_URL}/currencies/new`, options);
 
@@ -76,6 +79,7 @@ const currencyService = {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(currencyData),
         credentials: "include",
+        mode: "cors",
       };
       const response = await fetch(
         `${API_URL}/currencies/${currencyData._id}`,
@@ -103,6 +107,7 @@ const currencyService = {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(currencyData),
         credentials: "include",
+        mode: "cors",
       };
       const response = await fetch(
         `${API_URL}/currencies/${currencyData._id}`,
