@@ -68,7 +68,7 @@ const sessionConfig = {
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // set to true in prod (HTTPS)
-    sameSite: "none" as "none", // set to none in prod
+    // sameSite: "none" as "none", // set to none in prod
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
   },
 };
