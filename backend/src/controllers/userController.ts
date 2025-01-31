@@ -45,6 +45,8 @@ const login = (
       if (err) {
         return next(err);
       }
+      console.log("Session data:", req.session); // Debugging line
+      console.log("User data:", req.user); // Debugging line
       if (!user) {
         return res
           .status(401)
