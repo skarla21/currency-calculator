@@ -72,7 +72,7 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // only allow cookies over HTTPS, may cause errors in prod
+    // secure: process.env.NODE_ENV === "production", // only allow cookies over HTTPS, may cause errors in prod
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
