@@ -77,10 +77,7 @@ const sessionConfig = {
     secure: process.env.NODE_ENV === "production", // Set to true in production (HTTPS)
     sameSite, // Set to "none" for cross-origin in production
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-    domain:
-      process.env.NODE_ENV === "production"
-        ? ".your-backend.onrender.com"
-        : undefined, // Set domain in production
+    domain: process.env.NODE_ENV === "production" ? ".onrender.com" : undefined, // Set domain in production
   },
 };
 app.use(session(sessionConfig));
