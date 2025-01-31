@@ -39,6 +39,7 @@ const allowedOrigins = [
 
 app.use(
   cors({
+    origin: process.env.FRONTEND_URL,
     preflightContinue: true,
     credentials: true,
   })
