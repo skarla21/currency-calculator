@@ -87,6 +87,14 @@ const login = (
         console.log("Session ID:", req.session.id);
         console.log("User data after login:", req.user); // Debugging line
 
+        res.cookie("test", "hello world", {
+          sameSite: "none",
+          secure: true,
+          httpOnly: true,
+        });
+
+        res.cookie("test2", "hello world");
+
         return res.status(200).json({ message: "Login successful", user });
       });
     }

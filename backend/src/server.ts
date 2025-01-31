@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== "production") {
 
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
-import session from "express-session";
+import session, { SessionOptions } from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import cors from "cors";
@@ -65,7 +65,7 @@ store.on("error", function (e) {
   console.log("SESSION STORE ERROR", e);
 });
 
-const sessionConfig = {
+const sessionConfig: SessionOptions = {
   store,
   secret: process.env.SECRET!,
   resave: false,
@@ -73,7 +73,7 @@ const sessionConfig = {
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // set to true in prod (HTTPS)
-    sameSite: "none" as "none", // set to none in prod
+    sameSite: "none", // set to none in prod
     maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
   },
 };
