@@ -2,16 +2,6 @@ import { config } from "dotenv";
 if (process.env.NODE_ENV !== "production") {
   config(); //loads the .env file into `process.env`
 }
-console.log({
-  NODE_ENV: process.env.NODE_ENV,
-  PORT: process.env.PORT,
-  DB_URL: process.env.DB_URL,
-  FRONTEND_URL: process.env.FRONTEND_URL,
-  local_DB_URL: process.env.local_DB_URL,
-  local_FRONTEND_URL: process.env.local_FRONTEND_URL,
-  local_preview_FRONTEND_URL: process.env.local_preview_FRONTEND_URL,
-  SECRET: process.env.SECRET,
-});
 
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
@@ -144,11 +134,6 @@ const logResponseCookies = (
 
   next();
 };
-
-app.get("/", (req, res) => {
-  res.cookie("test_cookie", "hello_world");
-  res.send("Check console for cookies");
-});
 
 app.use((req, res, next) => {
   console.log("Session ID before request:", req.sessionID); // Log session ID before processing
