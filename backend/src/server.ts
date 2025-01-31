@@ -64,6 +64,8 @@ store.on("error", function (e) {
   console.log("SESSION STORE ERROR", e);
 });
 
+const sameSite: "none" | "lax" =
+  process.env.NODE_ENV === "production" ? "none" : "lax";
 const sessionConfig = {
   store,
   name: "session",
@@ -72,8 +74,13 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-    // secure: process.env.NODE_ENV === "production", // only allow cookies over HTTPS, may cause errors in prod
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+    secure: process.env.NODE_ENV === "production", // Set to true in production (HTTPS)
+    sameSite, // Set to "none" for cross-origin in production
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    domain:
+      process.env.NODE_ENV === "production"
+        ? ".your-backend.onrender.com"
+        : undefined, // Set domain in production
   },
 };
 app.use(session(sessionConfig));
@@ -97,6 +104,11 @@ passport.use(
 passport.serializeUser(User.serializeUser()); //store user info in cookie, after successful login
 passport.deserializeUser(User.deserializeUser()); //fetches the req.user info from db if an active session exists
 /* */
+
+app.use((req, res, next) => {
+  console.log("Cookies:", req.headers.cookie); // Debugging line
+  next();
+});
 
 app.use("/currencies", currencyRoutes);
 app.use("/", userRoutes);
