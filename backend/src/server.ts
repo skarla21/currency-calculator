@@ -102,6 +102,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id); // Fetch user from database
+    console.log("some random id that i try to find user from: ", id);
     if (!user) {
       console.log("no user from deserialization!!!!!!!!!!");
       return done(null, false); // User not found

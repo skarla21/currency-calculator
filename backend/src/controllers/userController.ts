@@ -3,9 +3,6 @@ import passport from "passport";
 import User, { IUser } from "../models/User.js";
 
 const currentUser = (req: express.Request, res: express.Response) => {
-  console.log("Session ID:", req.session.id);
-  console.log("Session data:", req.session);
-  console.log("User data:", req.user);
   if (!req.user) {
     return res.status(401).json({ message: "Not authenticated" });
   }
