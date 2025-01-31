@@ -87,14 +87,6 @@ const login = (
         console.log("Session ID:", req.session.id);
         console.log("User data after login:", req.user); // Debugging line
 
-        // Manually set the session cookie in the response
-        res.cookie("session", req.sessionID, {
-          httpOnly: true,
-          secure: true,
-          sameSite: "none",
-          maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-        });
-
         return res.status(200).json({ message: "Login successful", user });
       });
     }
