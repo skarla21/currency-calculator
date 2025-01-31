@@ -115,31 +115,12 @@ passport.deserializeUser(async (id, done) => {
 });
 /* */
 
-const logResponseCookies = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const originalSetHeader = res.setHeader.bind(res);
-
-  res.setHeader = (
-    name: string,
-    value: string | number | readonly string[]
-  ) => {
-    if (name.toLowerCase() === "set-cookie") {
-      console.log("Response Cookies:", value);
-    }
-    return originalSetHeader(name, value); // Ensure the original function is called correctly
-  };
-
-  next();
-};
-
 app.use((req, res, next) => {
   console.log("Session ID before request:", req.sessionID); // Log session ID before processing
   console.log("Cookies on request:", req.headers.cookie); // Log cookies sent in request
-
-  logResponseCookies(req, res, next);
+  console.log(JSON.stringify(res.header));
+  console.log(res.getHeaderNames());
+  console.log(res.getHeaders());
   next();
 });
 
