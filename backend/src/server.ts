@@ -2,8 +2,18 @@ import { config } from "dotenv";
 if (process.env.NODE_ENV !== "production") {
   config(); //loads the .env file into `process.env`
 }
+console.log({
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  DB_URL: process.env.DB_URL,
+  FRONTEND_URL: process.env.FRONTEND_URL,
+  local_DB_URL: process.env.local_DB_URL,
+  local_FRONTEND_URL: process.env.local_FRONTEND_URL,
+  local_preview_FRONTEND_URL: process.env.local_preview_FRONTEND_URL,
+  SECRET: process.env.SECRET,
+});
 
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -115,9 +125,36 @@ passport.deserializeUser(async (id, done) => {
 });
 /* */
 
+const logResponseCookies = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const originalSetHeader = res.setHeader.bind(res);
+
+  res.setHeader = (
+    name: string,
+    value: string | number | readonly string[]
+  ) => {
+    if (name.toLowerCase() === "set-cookie") {
+      console.log("Response Cookies:", value);
+    }
+    return originalSetHeader(name, value); // Ensure the original function is called correctly
+  };
+
+  next();
+};
+
+app.get("/", (req, res) => {
+  res.cookie("test_cookie", "hello_world");
+  res.send("Check console for cookies");
+});
+
 app.use((req, res, next) => {
   console.log("Session ID before request:", req.sessionID); // Log session ID before processing
   console.log("Cookies on request:", req.headers.cookie); // Log cookies sent in request
+
+  logResponseCookies(req, res, next);
   next();
 });
 
