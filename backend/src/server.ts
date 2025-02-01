@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== "production") {
   config(); //loads the .env file into `process.env`
 }
 
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import session, { SessionOptions } from "express-session";
 import MongoStore from "connect-mongo";
@@ -54,7 +54,7 @@ app.use(
 app.use(express.json()); //parse JSON request bodies
 app.use(express.urlencoded({ extended: true }));
 
-app.set("trust proxy", 1); // Trust the first proxy (important for secure cookies)
+app.set("trust proxy", 1); //trust the first proxy (important for secure cookies), spent 5 hours searching for this <3
 
 const store = MongoStore.create({
   mongoUrl: process.env.DB_URL! || process.env.local_DB_URL!,
@@ -69,7 +69,7 @@ store.on("error", function (e) {
 
 const sessionConfig: SessionOptions = {
   store,
-  name: "session", // Cookie name
+  name: "session",
   secret: process.env.SECRET!,
   resave: false,
   saveUninitialized: false,
@@ -112,35 +112,6 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 /* */
-
-const logResponseCookies = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const originalSetHeader = res.setHeader.bind(res);
-
-  res.setHeader = (
-    name: string,
-    value: string | number | readonly string[]
-  ) => {
-    if (name.toLowerCase() === "set-cookie") {
-      console.log("Response Cookies:", value);
-    }
-    return originalSetHeader(name, value); // Ensure the original function is called correctly
-  };
-
-  next();
-};
-
-app.use(logResponseCookies);
-
-app.use((req, res, next) => {
-  console.log("Session ID before request:", req.sessionID); // Log session ID before processing
-  console.log("Cookies on request:", req.headers.cookie); // Log cookies sent in request
-
-  next();
-});
 
 app.use("/currencies", currencyRoutes);
 app.use("/", userRoutes);

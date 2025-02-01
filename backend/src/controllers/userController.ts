@@ -32,34 +32,6 @@ const register = async (
   }
 };
 
-// const login = (
-//   req: express.Request,
-//   res: express.Response,
-//   next: express.NextFunction
-// ) => {
-//   passport.authenticate(
-//     "local",
-//     (err: Error | null, user: IUser | false | null, info: any) => {
-//       if (err) {
-//         return next(err);
-//       }
-//       console.log("Session data:", req.session); // Debugging line
-//       console.log("User data:", req.user); // Debugging line
-//       if (!user) {
-//         return res
-//           .status(401)
-//           .json({ message: "Authentication failed", error: info.message });
-//       }
-//       req.login(user, (loginErr) => {
-//         if (loginErr) {
-//           return next(loginErr);
-//         }
-//         return res.status(200).json({ message: "Login successful", user });
-//       });
-//     }
-//   )(req, res, next);
-// };
-
 const login = (
   req: express.Request,
   res: express.Response,
@@ -71,9 +43,6 @@ const login = (
       if (err) {
         return next(err);
       }
-      console.log("Session data before login:", req.session); // Debugging line
-      console.log("Session ID:", req.session.id);
-      console.log("User data before login:", req.user); // Debugging line
       if (!user) {
         return res
           .status(401)
@@ -83,18 +52,6 @@ const login = (
         if (loginErr) {
           return next(loginErr);
         }
-        console.log("Session data after login:", req.session); // Debugging line
-        console.log("Session ID:", req.session.id);
-        console.log("User data after login:", req.user); // Debugging line
-
-        res.cookie("test", "hello world", {
-          sameSite: "none",
-          secure: true,
-          httpOnly: true,
-        });
-
-        res.cookie("test2", "hello world");
-
         return res.status(200).json({ message: "Login successful", user });
       });
     }
