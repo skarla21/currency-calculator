@@ -54,6 +54,8 @@ app.use(
 app.use(express.json()); //parse JSON request bodies
 app.use(express.urlencoded({ extended: true }));
 
+app.set("trust proxy", 1); // Trust the first proxy (important for secure cookies)
+
 const store = MongoStore.create({
   mongoUrl: process.env.DB_URL! || process.env.local_DB_URL!,
   touchAfter: 24 * 60 * 60,
