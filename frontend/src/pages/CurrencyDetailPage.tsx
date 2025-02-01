@@ -51,18 +51,35 @@ const CurrencyDetailPage: React.FC = () => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh", //loader takes up the full screen height
-          textAlign: "center",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.5)", // subtle overlay for better contrast
         }}
       >
-        <CircularProgress sx={{ marginBottom: 2 }} />
-        <Typography variant="h6">
-          Initial Loading may take up to 1 min due to free server instance on
-          Render...
-        </Typography>
+        <Card
+          sx={{
+            minWidth: 300,
+            padding: 4,
+            borderRadius: 4,
+            backgroundColor: "lightblue",
+            boxShadow: 5,
+          }}
+        >
+          <CardContent
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress sx={{ color: "primary.main", marginBottom: 3 }} />
+            <Typography variant="h6" sx={{ color: "text.primary" }}>
+              Initial loading may take up to 1 min due to free server instance
+              on Render...
+            </Typography>
+          </CardContent>
+        </Card>
       </Box>
     );
   }
