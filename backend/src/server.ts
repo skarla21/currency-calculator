@@ -98,7 +98,7 @@ passport.use(
   )
 );
 
-// passport.serializeUser(User.serializeUser()); //store user info in cookie, after successful login
+//store user info in cookie, after successful login
 passport.serializeUser((user: any, done) => {
   done(null, user._id); // Serialize user by MongoDB _id
 });
