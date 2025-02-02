@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { ICurrencyExchange } from "../constants/currencies";
 import { Box, ListItem, ListItemText, Button, Divider } from "@mui/material";
 import { useAuth } from "../hooks/useAuth";
@@ -27,7 +27,7 @@ const CurrencyExchangeListItem: React.FC<CurrencyExchangeListItemProps> = ({
           />
         </Box>
         <Button
-          component={Link}
+          component={RouterLink}
           to={`/currencies/${currencyExchange._id}`}
           variant="outlined"
           size="small"

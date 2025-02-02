@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import CurrencyExchangeCard from "../components/CurrencyExchangeCard";
 import CurrencyExchangeList from "../components/CurrencyExchangeList";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import currencyService from "../services/currencyService";
 import { ICurrencyExchange } from "../constants/currencies";
 import {
@@ -17,6 +18,7 @@ const Home = () => {
   const [currencyExchanges, setCurrencyExchanges] = useState<
     ICurrencyExchange[]
   >([]);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -29,7 +31,7 @@ const Home = () => {
       }
     };
     fetchCurrencies();
-  }, []);
+  }, [location.key]); //trigger fresh fetch of data on every home navigation
 
   if (isLoading) {
     return (

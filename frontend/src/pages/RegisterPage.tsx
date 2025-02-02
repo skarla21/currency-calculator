@@ -10,6 +10,7 @@ import {
   Typography,
   Link,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
   const { register } = useAuth();
@@ -126,7 +127,7 @@ const RegisterPage: React.FC = () => {
             </form>
             <Typography variant="body2" sx={{ marginTop: 2 }} align="center">
               Already have an account?{" "}
-              <Link href="/login" underline="hover">
+              <Link component={RouterLink} to="/login" underline="hover">
                 Login here
               </Link>
             </Typography>

@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Button, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {
@@ -18,7 +18,7 @@ const Header = () => {
     >
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
-          <Button component={Link} to="/" color="primary">
+          <Button component={RouterLink} to="/" color="primary">
             Home
           </Button>
         </Box>
@@ -26,7 +26,11 @@ const Header = () => {
         <Box>
           {isAuthenticated ? (
             <>
-              <Button component={Link} to="/currencies/new" color="primary">
+              <Button
+                component={RouterLink}
+                to="/currencies/new"
+                color="primary"
+              >
                 New Currency
               </Button>
               <Button onClick={logout} color="secondary">
@@ -35,10 +39,10 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Button component={Link} to="/login" color="primary">
+              <Button component={RouterLink} to="/login" color="primary">
                 Login
               </Button>
-              <Button component={Link} to="/register" color="primary">
+              <Button component={RouterLink} to="/register" color="primary">
                 Register
               </Button>
             </>

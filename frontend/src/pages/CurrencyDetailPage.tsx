@@ -74,10 +74,6 @@ const CurrencyDetailPage: React.FC = () => {
             }}
           >
             <CircularProgress sx={{ color: "primary.main", marginBottom: 3 }} />
-            <Typography variant="h6" sx={{ color: "text.primary" }}>
-              Initial loading may take up to 1 min due to free server instance
-              on Render...
-            </Typography>
           </CardContent>
         </Card>
       </Box>

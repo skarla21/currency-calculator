@@ -12,6 +12,7 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -114,7 +115,7 @@ const LoginPage: React.FC = () => {
             </form>
             <Typography variant="body2" sx={{ marginTop: 2 }} align="center">
               Don't have an account?{" "}
-              <Link href="/register" underline="hover">
+              <Link component={RouterLink} to="/register" underline="hover">
                 Register here
               </Link>
             </Typography>
