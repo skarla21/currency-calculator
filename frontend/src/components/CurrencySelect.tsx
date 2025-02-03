@@ -1,17 +1,10 @@
-import {
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { Currency, CURRENCY_DISPLAY } from "../constants/currencies";
 
 interface Props {
   label: string;
-  value: Currency | "";
-  onChange: (event: SelectChangeEvent<Currency>) => void;
+  value: Currency | null;
+  onChange: (event: React.SyntheticEvent, value: Currency | null) => void;
   options: Currency[];
 }
 
@@ -22,28 +15,14 @@ const CurrencySelect: React.FC<Props> = ({
   options,
 }) => {
   return (
-    <FormControl fullWidth variant="outlined">
-      <InputLabel>{label}</InputLabel>
-      <Select
-        value={value}
-        onChange={onChange}
-        label={label}
-        MenuProps={{
-          PaperProps: {
-            sx: { maxHeight: 200 },
-          },
-        }}
-        renderValue={(selected) => selected as Currency}
-      >
-        {options.map((currency) => (
-          <MenuItem key={currency} value={currency}>
-            <Typography component="span">
-              {CURRENCY_DISPLAY[currency]}
-            </Typography>
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Autocomplete
+      options={options}
+      getOptionLabel={(currency) => CURRENCY_DISPLAY[currency]}
+      value={value}
+      onChange={onChange}
+      renderInput={(params) => <TextField {...params} label={label} />}
+      fullWidth
+    />
   );
 };
 

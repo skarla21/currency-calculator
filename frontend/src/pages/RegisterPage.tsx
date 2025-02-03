@@ -9,6 +9,8 @@ import {
   Button,
   Typography,
   Link,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -25,6 +27,9 @@ const RegisterPage: React.FC = () => {
   const [emailHelperText, setEmailHelperText] = useState<string>("");
   const [usernameHelperText, setUsernameHelperText] = useState<string>("");
   const [passwordHelperText, setPasswordHelperText] = useState<string>("");
+
+  const [registerError, setRegisterError] = useState<boolean>(false); //error state for Snackbar
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const validateEmail = (email: string) => {
     return /\S+@\S+\.\S+/.test(email); //simple regex for email
@@ -71,7 +76,13 @@ const RegisterPage: React.FC = () => {
     }
 
     if (formIsValid) {
-      await register({ email, username, password });
+      try {
+        await register({ email, username, password });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        setRegisterError(true);
+        setErrorMessage(error?.message || "Register failed. Try again.");
+      }
     }
   };
 
@@ -134,6 +145,27 @@ const RegisterPage: React.FC = () => {
           </CardContent>
         </Card>
       </Box>
+
+      {/* Snackbar for error handling */}
+      <Snackbar
+        open={registerError}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        onClose={() => {
+          setRegisterError(false);
+          setErrorMessage("");
+        }}
+      >
+        <Alert
+          severity="error"
+          onClose={() => {
+            setRegisterError(false);
+            setErrorMessage("");
+          }}
+        >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

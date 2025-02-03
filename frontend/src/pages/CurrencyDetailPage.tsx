@@ -44,7 +44,7 @@ const CurrencyDetailPage: React.FC = () => {
       }
     };
     fetchCurrency();
-  }, [id]);
+  }, []);
 
   if (isLoading) {
     return (

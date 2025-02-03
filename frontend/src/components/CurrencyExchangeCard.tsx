@@ -19,8 +19,8 @@ interface Props {
 
 const CurrencyExchangeCard: React.FC<Props> = ({ currencyExchanges }) => {
   const [amount, setAmount] = useState<number | "">("");
-  const [fromCurrency, setFromCurrency] = useState<Currency | "">("");
-  const [toCurrency, setToCurrency] = useState<Currency | "">("");
+  const [fromCurrency, setFromCurrency] = useState<Currency | null>(null);
+  const [toCurrency, setToCurrency] = useState<Currency | null>(null);
 
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md")); // check if screen is medium (md) or larger
@@ -65,13 +65,11 @@ const CurrencyExchangeCard: React.FC<Props> = ({ currencyExchanges }) => {
         </Typography>
 
         <Stack
-          direction="row"
+          direction={{ xs: "column", md: "row" }}
           spacing={2}
-          flexWrap="wrap"
-          alignItems="center"
-          justifyContent="flex-start"
+          alignItems={{ md: "center" }}
         >
-          <Box sx={{ flex: 1, minWidth: 120 }}>
+          <Box sx={{ flex: 1, minWidth: 100 }}>
             <TextField
               label="Amount"
               type="number"
@@ -87,11 +85,11 @@ const CurrencyExchangeCard: React.FC<Props> = ({ currencyExchanges }) => {
             />
           </Box>
 
-          <Box sx={{ flex: 1, minWidth: 120 }}>
+          <Box sx={{ flex: 1, minWidth: 175 }}>
             <CurrencySelect
               label="From"
               value={fromCurrency}
-              onChange={(e) => setFromCurrency(e.target.value as Currency)}
+              onChange={(_event, value) => setFromCurrency(value)}
               options={fromOptions}
             />
           </Box>
@@ -99,18 +97,18 @@ const CurrencyExchangeCard: React.FC<Props> = ({ currencyExchanges }) => {
           {/* will disappear in smaller screens */}
           {isMdUp && <ArrowRightAltIcon sx={{ color: "gray", fontSize: 28 }} />}
 
-          <Box sx={{ flex: 1, minWidth: 120 }}>
+          <Box sx={{ flex: 1, minWidth: 175 }}>
             <CurrencySelect
               label="To"
               value={toCurrency}
-              onChange={(e) => setToCurrency(e.target.value as Currency)}
+              onChange={(_event, value) => setToCurrency(value)}
               options={toOptions}
             />
           </Box>
 
-          <Box sx={{ flex: 1, minWidth: 170 }}>
+          <Box sx={{ flex: 1, minWidth: 100 }}>
             <TextField
-              label="Converted Amount"
+              label="Converted"
               value={convertedAmount}
               slotProps={{ input: { readOnly: true } }}
               fullWidth

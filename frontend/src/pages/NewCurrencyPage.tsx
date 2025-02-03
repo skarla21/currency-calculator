@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Box,
   TextField,
   Card,
   CardContent,
@@ -15,8 +16,8 @@ import currencyService from "../services/currencyService";
 import Header from "../components/Header";
 
 const NewCurrencyPage: React.FC = () => {
-  const [fromCurrency, setFromCurrency] = useState<Currency | "">("");
-  const [toCurrency, setToCurrency] = useState<Currency | "">("");
+  const [fromCurrency, setFromCurrency] = useState<Currency | null>(null);
+  const [toCurrency, setToCurrency] = useState<Currency | null>(null);
   const [rate, setRate] = useState<number | "">("");
 
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +37,8 @@ const NewCurrencyPage: React.FC = () => {
         rate: Number(rate),
       });
       setSuccess(true);
-      setFromCurrency("");
-      setToCurrency("");
+      setFromCurrency(null);
+      setToCurrency(null);
       setRate("");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -58,31 +59,41 @@ const NewCurrencyPage: React.FC = () => {
 
           <form onSubmit={handleSubmit} noValidate>
             <Stack spacing={2}>
-              <Stack direction="row" spacing={2}>
-                <CurrencySelect
-                  label="From Currency"
-                  value={fromCurrency}
-                  onChange={(e) => setFromCurrency(e.target.value as Currency)}
-                  options={Object.values(Currency)}
-                />
-                <CurrencySelect
-                  label="To Currency"
-                  value={toCurrency}
-                  onChange={(e) => setToCurrency(e.target.value as Currency)}
-                  options={Object.values(Currency)}
-                />
+              <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+                <Box sx={{ flex: 1, minWidth: 180 }}>
+                  <CurrencySelect
+                    label="From"
+                    value={fromCurrency}
+                    onChange={(_event, value) => setFromCurrency(value)}
+                    options={Object.values(Currency)}
+                  />
+                </Box>
 
-                <TextField
-                  label="Exchange Rate"
-                  type="number"
-                  value={rate}
-                  onChange={(e) =>
-                    setRate(e.target.value === "" ? "" : Number(e.target.value))
-                  }
-                  inputProps={{ step: "0.01", min: "0" }}
-                  fullWidth
-                />
+                <Box sx={{ flex: 1, minWidth: 180 }}>
+                  <CurrencySelect
+                    label="To"
+                    value={toCurrency}
+                    onChange={(_event, value) => setToCurrency(value)}
+                    options={Object.values(Currency)}
+                  />
+                </Box>
+
+                <Box sx={{ flex: 1, minWidth: 120 }}>
+                  <TextField
+                    label="Exchange Rate"
+                    type="number"
+                    value={rate}
+                    onChange={(e) =>
+                      setRate(
+                        e.target.value === "" ? "" : Number(e.target.value)
+                      )
+                    }
+                    inputProps={{ step: "0.01", min: "0" }}
+                    fullWidth
+                  />
+                </Box>
               </Stack>
+
               <Button
                 type="submit"
                 variant="contained"

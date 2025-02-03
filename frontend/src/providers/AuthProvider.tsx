@@ -26,9 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         navigate("/");
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        throw new Error(
-          error?.response?.data?.message || "Invalid credentials"
-        );
+        throw new Error(error?.message || "Invalid credentials");
       }
     },
     [navigate, user]
@@ -45,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      throw new Error(error?.response?.data?.message || "Logout failed.");
+      throw new Error(error?.message || "Logout failed.");
     }
   }, [navigate, user]);
 
@@ -62,8 +60,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         throw new Error(
-          error?.response?.data?.message ||
-            "Registration failed. Please try again."
+          error?.message || "Registration failed. Please try again."
         );
       }
     },
