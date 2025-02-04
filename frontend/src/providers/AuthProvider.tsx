@@ -12,6 +12,7 @@ interface User {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true); //add loading state to stop redirecting while fetching user status
   const navigate = useNavigate();
 
   const login = useCallback(
@@ -73,17 +74,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (userData) {
         setUser(userData);
         setIsAuthenticated(true);
-        return;
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
       }
-      setUser(null);
-      setIsAuthenticated(false);
+      setIsLoading(false); //user status
     };
+
+    setIsLoading(true); //start loading the user's status
     checkAuthStatus();
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, logout, register }}
+      value={{ user, isAuthenticated, isLoading, login, logout, register }}
     >
       {children}
     </AuthContext.Provider>

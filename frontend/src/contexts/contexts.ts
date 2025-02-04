@@ -9,6 +9,7 @@ interface User {
 interface AuthContextType {
   user: User | null; // store user info in the shape of response
   isAuthenticated: boolean;
+  isLoading: boolean;
   login: (credentials: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
   register: (credentials: {

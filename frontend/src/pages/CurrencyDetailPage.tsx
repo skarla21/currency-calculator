@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  Box,
-  CircularProgress,
   TextField,
   Card,
   CardContent,
@@ -15,6 +13,7 @@ import {
 import { ICurrencyExchange } from "../constants/currencies";
 import currencyService from "../services/currencyService";
 import Header from "../components/Header";
+import Loading from "../components/Loading";
 
 const CurrencyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,62 +23,9 @@ const CurrencyDetailPage: React.FC = () => {
   const [rate, setRate] = useState<number | "">("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true); //loading state
+  const [isLoading, setIsLoading] = useState<boolean>(true); //data loading state
 
   const navigate = useNavigate();
-
-  //fetch the currency exchange based on the id
-  useEffect(() => {
-    const fetchCurrency = async () => {
-      try {
-        const data = await currencyService.getCurrencyById(id!);
-        setCurrencyExchange(data);
-        setRate(data.rate);
-        setIsLoading(false);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
-        setError(
-          err.response?.data?.message || "Failed to fetch currency exchange."
-        );
-      }
-    };
-    fetchCurrency();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // subtle overlay for better contrast
-        }}
-      >
-        <Card
-          sx={{
-            minWidth: 300,
-            padding: 4,
-            borderRadius: 4,
-            backgroundColor: "lightblue",
-            boxShadow: 5,
-          }}
-        >
-          <CardContent
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress sx={{ color: "primary.main", marginBottom: 3 }} />
-          </CardContent>
-        </Card>
-      </Box>
-    );
-  }
 
   //handle update
   const handleUpdate = async () => {
@@ -124,6 +70,29 @@ const CurrencyDetailPage: React.FC = () => {
       );
     }
   };
+
+  //fetch the currency exchange based on the id
+  useEffect(() => {
+    const fetchCurrency = async () => {
+      try {
+        const data = await currencyService.getCurrencyById(id!);
+        setCurrencyExchange(data);
+        setRate(data.rate);
+        setIsLoading(false);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        setError(
+          err.response?.data?.message || "Failed to fetch currency exchange."
+        );
+      }
+    };
+    fetchCurrency();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

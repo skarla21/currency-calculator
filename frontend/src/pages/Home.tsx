@@ -1,19 +1,14 @@
 import Header from "../components/Header";
 import CurrencyExchangeCard from "../components/CurrencyExchangeCard";
 import CurrencyExchangeList from "../components/CurrencyExchangeList";
+import Loading from "../components/Loading";
 import { useEffect, useState } from "react";
 import currencyService from "../services/currencyService";
 import { ICurrencyExchange } from "../constants/currencies";
-import {
-  Box,
-  Card,
-  CardContent,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
+import { Box } from "@mui/material";
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true); //loading state
+  const [isLoading, setIsLoading] = useState<boolean>(true); //data loading state
   const [currencyExchanges, setCurrencyExchanges] = useState<
     ICurrencyExchange[]
   >([]);
@@ -32,41 +27,7 @@ const Home = () => {
   }, []); //trigger on every mount (coming back to the page)
 
   if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // subtle overlay for better contrast
-        }}
-      >
-        <Card
-          sx={{
-            minWidth: 300,
-            padding: 4,
-            borderRadius: 4,
-            backgroundColor: "lightblue",
-            boxShadow: 5,
-          }}
-        >
-          <CardContent
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress sx={{ color: "primary.main", marginBottom: 3 }} />
-            <Typography variant="h6" sx={{ color: "text.primary" }}>
-              Initial loading may take up to 1 min due to free server instance
-              on Render...
-            </Typography>
-          </CardContent>
-        </Card>
-      </Box>
-    );
+    return <Loading />;
   }
 
   return (
