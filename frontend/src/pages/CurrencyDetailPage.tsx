@@ -136,7 +136,11 @@ const CurrencyDetailPage: React.FC = () => {
 
           <form noValidate>
             <Stack spacing={2}>
-              <Stack direction="row" spacing={2}>
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={2}
+                alignItems={{ md: "center" }}
+              >
                 <TextField
                   label="From Currency"
                   value={currencyExchange!.from}
@@ -167,7 +171,12 @@ const CurrencyDetailPage: React.FC = () => {
                 />
               </Stack>
 
-              <Stack direction="row" spacing={2} sx={{ marginTop: 2 }}>
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={2}
+                alignItems={{ md: "center" }}
+                sx={{ marginTop: 2 }}
+              >
                 <Button
                   variant="contained"
                   color="primary"

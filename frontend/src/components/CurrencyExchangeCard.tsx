@@ -94,7 +94,7 @@ const CurrencyExchangeCard: React.FC<Props> = ({ currencyExchanges }) => {
             />
           </Box>
 
-          {/* will disappear in smaller screens */}
+          {/* will disappear in screens smaller than md */}
           {isMdUp && <ArrowRightAltIcon sx={{ color: "gray", fontSize: 28 }} />}
 
           <Box sx={{ flex: 1, minWidth: 175 }}>
