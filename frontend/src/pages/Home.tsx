@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import CurrencyExchangeCard from "../components/CurrencyExchangeCard";
 import CurrencyExchangeList from "../components/CurrencyExchangeList";
-import Loading from "../components/Loading";
+import LoadingOverlay from "../components/LoadingOverlay";
 import { useEffect, useState } from "react";
 import currencyService from "../services/currencyService";
 import { ICurrencyExchange } from "../constants/currencies";
@@ -27,7 +27,7 @@ const Home = () => {
   }, []); //trigger on every mount (coming back to the page)
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingOverlay />;
   }
 
   return (

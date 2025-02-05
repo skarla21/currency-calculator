@@ -31,7 +31,7 @@ const Header = () => {
                 to="/currencies/new"
                 color="primary"
               >
-                New Currency
+                New Rate
               </Button>
               <Button onClick={logout} color="secondary">
                 Logout

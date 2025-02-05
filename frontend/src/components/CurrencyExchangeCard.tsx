@@ -6,10 +6,9 @@ import {
   Typography,
   Stack,
   Box,
-  useMediaQuery,
-  useTheme,
+  Button,
 } from "@mui/material";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import CurrencySelect from "./CurrencySelect";
 import { ICurrencyExchange, Currency } from "../constants/currencies";
 
@@ -22,40 +21,78 @@ const CurrencyExchangeCard: React.FC<Props> = ({ currencyExchanges }) => {
   const [fromCurrency, setFromCurrency] = useState<Currency | null>(null);
   const [toCurrency, setToCurrency] = useState<Currency | null>(null);
 
-  const theme = useTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up("md")); // check if screen is medium (md) or larger
-
   // 'from' currency options based on selected 'to'
   const fromOptions = useMemo(() => {
-    if (!toCurrency)
-      return [...new Set(currencyExchanges.map((ex) => ex.from))];
-    return currencyExchanges
-      .filter((ex) => ex.to === toCurrency)
-      .map((ex) => ex.from);
+    if (!toCurrency) {
+      //all froms and tos by default become from options
+      return [
+        ...new Set([
+          ...currencyExchanges.map((ex) => ex.from),
+          ...currencyExchanges.map((ex) => ex.to),
+        ]),
+      ] as Currency[];
+    } else {
+      //all from options based on the fact that we have a 'to' option (straight exchanges & reverse exchanges)
+      const straightExchangePairs = currencyExchanges
+        .filter((ex) => ex.to === toCurrency)
+        .map((ex) => ex.from);
+      const reverseExchangePairs = currencyExchanges
+        .filter((ex) => ex.from === toCurrency)
+        .map((ex) => ex.to);
+      return [
+        ...new Set([...straightExchangePairs, ...reverseExchangePairs]),
+      ] as Currency[];
+    }
   }, [toCurrency, currencyExchanges]);
 
   // 'to' currency options based on selected 'from'
   const toOptions = useMemo(() => {
-    if (!fromCurrency)
-      return [...new Set(currencyExchanges.map((ex) => ex.to))];
-    return currencyExchanges
-      .filter((ex) => ex.from === fromCurrency)
-      .map((ex) => ex.to);
+    if (!fromCurrency) {
+      //all tos and froms by default become to options
+      return [
+        ...new Set([
+          ...currencyExchanges.map((ex) => ex.to),
+          ...currencyExchanges.map((ex) => ex.from),
+        ]),
+      ] as Currency[];
+    } else {
+      //all to options based on the fact that we have a 'from' option (straight exchanges & reverse exchanges)
+      const straightExchangePairs = currencyExchanges
+        .filter((ex) => ex.from === fromCurrency)
+        .map((ex) => ex.to);
+      const reverseExchangePairs = currencyExchanges
+        .filter((ex) => ex.to === fromCurrency)
+        .map((ex) => ex.from);
+      return [
+        ...new Set([...straightExchangePairs, ...reverseExchangePairs]),
+      ] as Currency[];
+    }
   }, [fromCurrency, currencyExchanges]);
 
   // 2 memos for the exchangeRate and the convertedAmount
   const exchangeRate = useMemo(() => {
     if (!fromCurrency || !toCurrency) return null;
-    const exchange = currencyExchanges.find(
+    const straightExchange = currencyExchanges.find(
       (ex) => ex.from === fromCurrency && ex.to === toCurrency
     );
-    return exchange ? exchange.rate : null;
+    const reverseExchange = currencyExchanges.find(
+      (ex) => ex.from === toCurrency && ex.to === fromCurrency
+    );
+
+    if (straightExchange) return straightExchange.rate;
+    else if (reverseExchange) return 1 / reverseExchange.rate;
+    else return null;
   }, [fromCurrency, toCurrency, currencyExchanges]);
 
   const convertedAmount = useMemo(() => {
     if (amount === "" || exchangeRate === null) return "";
-    return (amount * exchangeRate).toFixed(2);
+    return Number((amount * exchangeRate).toFixed(3));
   }, [amount, exchangeRate]);
+
+  const handleSwap = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+  };
 
   return (
     <Card sx={{ padding: 2, maxWidth: 700, margin: "auto" }}>
@@ -94,8 +131,14 @@ const CurrencyExchangeCard: React.FC<Props> = ({ currencyExchanges }) => {
             />
           </Box>
 
-          {/* will disappear in screens smaller than md */}
-          {isMdUp && <ArrowRightAltIcon sx={{ color: "gray", fontSize: 28 }} />}
+          <Button
+            onClick={handleSwap}
+            variant="outlined"
+            color="primary"
+            sx={{ minWidth: "auto", padding: 1 }}
+          >
+            <SwapHorizIcon />
+          </Button>
 
           <Box sx={{ flex: 1, minWidth: 175 }}>
             <CurrencySelect

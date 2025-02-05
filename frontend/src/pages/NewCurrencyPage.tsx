@@ -41,10 +41,8 @@ const NewCurrencyPage: React.FC = () => {
       setToCurrency(null);
       setRate("");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(
-        err?.response?.data?.message || "Failed to create currency exchange."
-      );
+    } catch (error: any) {
+      setError(error?.message || "Failed to create currency exchange.");
     }
   };
 
@@ -54,7 +52,7 @@ const NewCurrencyPage: React.FC = () => {
       <Card sx={{ padding: 2, maxWidth: 600, margin: "auto", marginTop: 5 }}>
         <CardContent>
           <Typography variant="h6" sx={{ marginBottom: 2 }}>
-            Create New Currency Exchange
+            Create New Exchange Rate
           </Typography>
 
           <form onSubmit={handleSubmit} noValidate>
@@ -100,7 +98,7 @@ const NewCurrencyPage: React.FC = () => {
                 color="primary"
                 fullWidth
               >
-                Create Exchange
+                Create Rate
               </Button>
             </Stack>
           </form>
@@ -113,7 +111,7 @@ const NewCurrencyPage: React.FC = () => {
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
           <Alert severity="success" onClose={() => setSuccess(false)}>
-            Currency exchange created successfully!
+            Exchange Rate created successfully!
           </Alert>
         </Snackbar>
 

@@ -28,8 +28,9 @@ const createCurrency = async (req: express.Request, res: express.Response) => {
     return res.status(400).json({ error: "Invalid currency" });
   }
 
-  const exists = await Currency.findOne({ from, to });
-  if (exists) {
+  const exists = await Currency.findOne({ from: from, to: to });
+  const reverseExists = await Currency.findOne({ from: to, to: from });
+  if (exists || reverseExists) {
     return res.status(400).json({ error: "Currency pair already exist" });
   }
 

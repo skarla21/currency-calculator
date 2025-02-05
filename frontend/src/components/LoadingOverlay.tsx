@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const Loading = () => {
+const LoadingOverlay = () => {
   return (
     <Box
       sx={{
@@ -44,4 +44,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingOverlay;

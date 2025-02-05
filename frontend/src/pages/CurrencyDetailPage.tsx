@@ -10,10 +10,11 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { ICurrencyExchange } from "../constants/currencies";
 import currencyService from "../services/currencyService";
 import Header from "../components/Header";
-import Loading from "../components/Loading";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const CurrencyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -91,7 +92,7 @@ const CurrencyDetailPage: React.FC = () => {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingOverlay />;
   }
 
   return (
@@ -100,7 +101,7 @@ const CurrencyDetailPage: React.FC = () => {
       <Card sx={{ padding: 2, maxWidth: 600, margin: "auto", marginTop: 5 }}>
         <CardContent>
           <Typography variant="h6" sx={{ marginBottom: 2 }}>
-            Currency Exchange Details
+            Exchange Rate Details
           </Typography>
 
           <form noValidate>
@@ -152,15 +153,16 @@ const CurrencyDetailPage: React.FC = () => {
                   onClick={handleUpdate}
                   fullWidth
                 >
-                  Update Exchange
+                  Update Rate
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
                   onClick={handleDelete}
+                  endIcon={<DeleteIcon />}
                   fullWidth
                 >
-                  Delete Exchange
+                  Delete Rate
                 </Button>
                 <Button
                   variant="outlined"
