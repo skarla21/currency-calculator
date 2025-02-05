@@ -33,6 +33,11 @@ const createCurrency = async (req: express.Request, res: express.Response) => {
   if (exists || reverseExists) {
     return res.status(400).json({ error: "Currency pair already exist" });
   }
+  if (from === to) {
+    return res
+      .status(400)
+      .json({ error: "Cant accept matching from and to values" });
+  }
 
   const newCurrency = new Currency({ from, to, rate });
   await newCurrency.save();
