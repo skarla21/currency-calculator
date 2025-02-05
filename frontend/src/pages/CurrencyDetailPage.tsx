@@ -104,76 +104,74 @@ const CurrencyDetailPage: React.FC = () => {
             Exchange Rate Details
           </Typography>
 
-          <form noValidate>
-            <Stack spacing={2}>
-              <Stack
-                direction={{ xs: "column", md: "row" }}
-                spacing={2}
-                alignItems={{ md: "center" }}
-              >
-                <TextField
-                  label="From Currency"
-                  value={currencyExchange!.from}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-                <TextField
-                  label="To Currency"
-                  value={currencyExchange!.to}
-                  disabled
-                  fullWidth
-                  variant="outlined"
-                />
-                <TextField
-                  label="Exchange Rate"
-                  type="number"
-                  value={rate}
-                  onChange={(e) =>
-                    setRate(
-                      e.target.value === ""
-                        ? ""
-                        : Math.max(0, Number(e.target.value))
-                    )
-                  }
-                  inputProps={{ step: "0.01", min: "0" }}
-                  fullWidth
-                />
-              </Stack>
-
-              <Stack
-                direction={{ xs: "column", md: "row" }}
-                spacing={2}
-                alignItems={{ md: "center" }}
-                sx={{ marginTop: 2 }}
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleUpdate}
-                  fullWidth
-                >
-                  Update Rate
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  onClick={handleDelete}
-                  endIcon={<DeleteIcon />}
-                  fullWidth
-                >
-                  Delete Rate
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() => navigate("/")}
-                  fullWidth
-                >
-                  Cancel
-                </Button>
-              </Stack>
+          <Stack spacing={2}>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={2}
+              alignItems={{ md: "center" }}
+            >
+              <TextField
+                label="From Currency"
+                value={currencyExchange!.from}
+                disabled
+                fullWidth
+                variant="outlined"
+              />
+              <TextField
+                label="To Currency"
+                value={currencyExchange!.to}
+                disabled
+                fullWidth
+                variant="outlined"
+              />
+              <TextField
+                label="Exchange Rate"
+                type="number"
+                value={rate}
+                onChange={(e) =>
+                  setRate(
+                    e.target.value === ""
+                      ? ""
+                      : Math.max(0, Number(e.target.value))
+                  )
+                }
+                inputProps={{ step: "0.01", min: "0" }}
+                fullWidth
+              />
             </Stack>
-          </form>
+
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={2}
+              alignItems={{ md: "center" }}
+              sx={{ marginTop: 2 }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleUpdate}
+                fullWidth
+              >
+                Update Rate
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleDelete}
+                endIcon={<DeleteIcon />}
+                fullWidth
+              >
+                Delete Rate
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => navigate("/")}
+                fullWidth
+              >
+                Cancel
+              </Button>
+            </Stack>
+          </Stack>
         </CardContent>
       </Card>
       <Snackbar
